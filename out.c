@@ -1,36 +1,38 @@
 #include <ncurses.h>
-#include <out.c>
-#include <logic.g>
+#include "out.h"
+#include "logic.h"
 
 #define BODY ('#')
 #define FRUIT ('*')
 
 void display_snake(struct point *snake){
     while (snake){
-        mvaddch(snake->x, snake->y, BODY);
+        mvaddch(snake->y, snake->x, BODY);
         snake = snake->next;
     }
 }
 
 void display_fruits(struct point *fruits){
     while (fruits){
-        mvaddch(fruits->x, fruits->y, FRUIT);
+        mvaddch(fruits->y, fruits->x, FRUIT);
         fruits = fruits->next;
     }
 }
 
-enum Direction get_direction(enum Direction prev){
-    ch = getch();
-    switch(ch){
-        case KEY_LEFT:
-            if (prev != KEY_RIGHT) return Direction.LEFT;
-        case KEY_RIGHT:
-            if (prev != KEY_LEFT) return Direction.RIGHT;
-        case KEY_UP:
-            if (prev != KEY_DOWN) return Direction.UP;
-        case KEY_DOWN:
-            if (prev != KEY_UP) return Direction.DOWN;
-        default: return prev;
-    }
+
+enum DIRECTION get_direction(enum DIRECTION previous) {
+  int ch = getch();
+  switch (ch) {
+    case KEY_LEFT:
+      if (previous != RIGHT) return LEFT;
+    case KEY_RIGHT:
+      if (previous != LEFT) return RIGHT;
+    case KEY_DOWN:
+      if (previous != UP) return DOWN;
+    case KEY_UP:
+      if (previous != DOWN) return UP;
+    default:
+      return previous;
+  }
 }
 

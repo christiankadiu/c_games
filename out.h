@@ -1,3 +1,8 @@
-void displaySnake();
+#include <ncurses.h>
+#include "logic.h"
 
-enum Direction get_direction(enum Direction previous);
+void display_snake(struct point* snake);
+
+void display_fruits(struct point* fruits);
+
+enum DIRECTION get_direction(enum DIRECTION previous);
