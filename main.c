@@ -34,7 +34,8 @@ int main(){
         display_snake(boa->snake);
         display_fruits(boa->fruits);
         dir = get_direction(dir);
-        moveSnake(dir, &boa->snake);
+        if (dir == STOP) break;
+        moveSnake(dir, &boa->snake, &boa->fruits);
         refresh();
     }
     endwin();

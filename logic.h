@@ -5,7 +5,7 @@
 #include <ncurses.h>
 
 
-enum DIRECTION {UP, DOWN, LEFT, RIGHT};
+enum DIRECTION {UP, DOWN, LEFT, RIGHT, STOP};
 
 typedef struct point{
     int x;
@@ -26,7 +26,7 @@ struct point* create_fruits(int xmin, int xmax, int ymin, int ymax);
 
 struct board* create_board(struct point *snake, struct point *fruits, int xmax, int ymax);
 
-void moveSnake(enum DIRECTION dir, struct point** snake);
+void moveSnake(enum DIRECTION dir, struct point** snake, struct point** fruits);
 
 #endif
 

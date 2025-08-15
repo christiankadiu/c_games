@@ -25,14 +25,20 @@ enum DIRECTION get_direction(enum DIRECTION previous) {
   switch (ch) {
     case KEY_LEFT:
       if (previous != RIGHT) return LEFT;
+    break;
     case KEY_RIGHT:
       if (previous != LEFT) return RIGHT;
+    break;
     case KEY_DOWN:
       if (previous != UP) return DOWN;
+    break;
     case KEY_UP:
       if (previous != DOWN) return UP;
-    default:
-      return previous;
+    break;
+    case 113:
+        return STOP;
+        break;
   }
+  return previous;
 }
 

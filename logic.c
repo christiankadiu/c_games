@@ -40,22 +40,61 @@ void add_head(struct point** snake, int deltaX, int deltaY){
     *snake = new;
 }
 
-void moveSnake(enum DIRECTION dir, struct point** snake){
+bool checkCollisions(point* snake, point* fruits){
+    if (snake->x == fruits->x && snake->y == fruits->y) return true;
+    return false;
+}
+
+void remove_tail(point** snake){
+    while((*snake)->next->next){
+        *snake = (*snake)->next;
+    }
+    point* tmp = (*snake)->next;
+    (*snake)->next = NULL;
+    free(tmp);
+}
+
+void remove_fruit(){
+
+}
+
+void moveSnake(enum DIRECTION dir, struct point** snake, struct point** fruits){
     switch (dir){
         case RIGHT:
             add_head(snake, 1, 0);
+            if (!checkCollisions(*fruits, *snake)){
+                remove_tail(snake);
+            }else{
+                add_head(snake, 1, 0);
+                remove_fruit(fruits);
+            }
         break;
 
         case LEFT:
             add_head(snake, -1, 0);
+            if (!checkCollisions(*fruits, *snake)){
+                remove_tail(snake);
+            }else{
+                add_head(snake, -1, 0);
+            }
         break;
 
         case UP:
             add_head(snake, 0, -1);
+            if (!checkCollisions(*fruits, *snake)){
+                remove_tail(snake);
+            }else{
+                add_head(snake, 0, -1);
+            }
         break;
 
         case DOWN:
             add_head(snake, 0, 1);
+            if (!checkCollisions(*fruits, *snake)){
+                remove_tail(snake);
+            }else{
+                add_head(snake, 0, 1);
+            }
         break;
     }
 }
