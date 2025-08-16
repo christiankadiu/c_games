@@ -3,7 +3,8 @@
 
 
 #include <ncurses.h>
-
+/* variabile che gestisce la terminazione del gioco*/
+int toQuit;
 
 enum DIRECTION {UP, DOWN, LEFT, RIGHT, STOP};
 
@@ -34,11 +35,11 @@ typedef struct board{
 
 struct point* create_snake(int x, int y);
 
-struct fruit* create_fruits(struct dimensions dimes);
+struct fruit* create_fruits(struct dimensions *dimes);
 
-struct board* create_board(struct point *snake, struct fruit *fruits, struct dimensions dimes);
+struct board* create_board(struct point *snake, struct fruit *fruits, struct dimensions *dimes);
 
-void moveSnake(enum DIRECTION dir, struct point** snake, struct fruit* fruits, dimensions dimes);
+void moveSnake(enum DIRECTION dir, struct point** snake, struct fruit* fruits, dimensions *dimes);
 
 #endif
 
