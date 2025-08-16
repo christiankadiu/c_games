@@ -13,21 +13,19 @@ int main(){
     noecho();
     curs_set(0); // hide cursor
     timeout(100);
-
-    struct point *fruits;
+    
+    struct dimensions dimes;
+    struct fruit *fruits;
     struct point *snake;
     struct board *boa;
     enum DIRECTION dir = RIGHT;
-    int ymax;
-    int xmax;
-    int ymin, xmin;
-    getbegyx(stdscr, ymin, xmin);
-    getmaxyx(stdscr, ymax, xmax);
-    int x_initial = rand() % (xmax - xmin);
-    int y_initial = (rand() % (ymax - ymin));
+    getmaxyx(stdscr, dimes.ymax, dimes.xmax); 
+    getbegyx(stdscr, dimes.ymin, dimes.xmin);
+    int x_initial = rand() % (dimes.xmax - dimes.xmin);
+    int y_initial = (rand() % (dimes.ymax - dimes.ymin));
     snake = create_snake(x_initial, y_initial);
-    fruits = create_fruits(xmin, xmax, ymin, ymax);
-    boa = create_board(snake, fruits, xmax, ymax);
+    fruits = create_fruits(dimes);
+    boa = create_board(snake, fruits, dimes);
 
     while(1){
         clear();
@@ -35,7 +33,7 @@ int main(){
         display_fruits(boa->fruits);
         dir = get_direction(dir);
         if (dir == STOP) break;
-        moveSnake(dir, &boa->snake, &boa->fruits);
+        moveSnake(dir, &boa->snake, boa->fruits, dimes);
         refresh();
     }
     endwin();

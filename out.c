@@ -12,10 +12,9 @@ void display_snake(struct point *snake){
     }
 }
 
-void display_fruits(struct point *fruits){
-    while (fruits){
+void display_fruits(struct fruit *fruits){
+    if (fruits){
         mvaddch(fruits->y, fruits->x, FRUIT);
-        fruits = fruits->next;
     }
 }
 

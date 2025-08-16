@@ -7,26 +7,38 @@
 
 enum DIRECTION {UP, DOWN, LEFT, RIGHT, STOP};
 
+typedef struct dimensions{
+        int xmin;
+        int xmax;
+        int ymin;
+        int ymax;
+}dimensions;
+
 typedef struct point{
     int x;
     int y;
     struct point *next;
 } point;
 
+typedef struct fruit{
+    int x;
+    int y;
+} fruit;
+
 typedef struct board{
     struct point *snake;
-    struct point *fruits;
+    struct fruit *fruits;
     int xmax;
     int ymax;
 } board;
 
 struct point* create_snake(int x, int y);
 
-struct point* create_fruits(int xmin, int xmax, int ymin, int ymax);
+struct fruit* create_fruits(struct dimensions dimes);
 
-struct board* create_board(struct point *snake, struct point *fruits, int xmax, int ymax);
+struct board* create_board(struct point *snake, struct fruit *fruits, struct dimensions dimes);
 
-void moveSnake(enum DIRECTION dir, struct point** snake, struct point** fruits);
+void moveSnake(enum DIRECTION dir, struct point** snake, struct fruit* fruits, dimensions dimes);
 
 #endif
 
