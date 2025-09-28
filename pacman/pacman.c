@@ -1,54 +1,26 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <ncurses.h>
+#include "out.h"
+#include "logic.h"
+#define MURO '#'
+#define PUNTO '.'
 
-typedef struct pacman{
-    int x;
-    int y;
-} pacman;
-
-typedef enum dir{
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-}dir;
 
 pacman* init(){
-    pacman* pac = (pacman*)malloc(sizeof(pacman));
-    pac->x = 21;
-    pac->y = 22;
-    return pac;
+    pacman* p = (pacman*)malloc(sizeof(pacman));
+    p->x = 13;
+    p->y = 1;
+    return p;
 }
 
-dir getDirection(){
-    char d;
-    dir di;
-    scanf("%c", &d);
-    if (d == 'w'){
-        di = UP;
-    }else if(d == 's'){
-        di = DOWN;
-    }else if(d == 'a'){
-        di = LEFT;
-    }else{
-        di = RIGHT;
-    }
-    return di;
-}
-
-void updatePosition(pacman* p, dir d){
-    switch(d){
-        case 0: p->y -= 1; break;
-        case 1: p->y += 1; break;
-        case 2: p->x -= 1; break;
-        case 3: p->x += 1; break;
-    }
-}
 
 int main(){
+
     pacman* pac = init();
-    dir direction = LEFT;
+    int cols;
+    int rows;
     FILE* fp = fopen("mappa.txt", "r");
 
     if(fp == NULL){
@@ -56,33 +28,51 @@ int main(){
         return 1;
     }
 
-    int rows;
-    int cols;
     int c = 0;
     while (c <= 0){
         fscanf(fp, "%d %d", &rows, &cols);
         c++;
     } 
     char mappa[rows][cols];
-    printf("le righe sono: %d\t", rows);
-    printf("le colonne sono: %d\n", cols);
     char ch;
     for (int i = 0; i < rows; i++){
         for (int k = 0; k < cols; k++){
-            fscanf(fp, " %c", &ch);
+            fscanf(fp, "%c", &ch);
+            if (ch == '\n' || ch == '\r') {
+                k--; 
+                continue;
+            }
             mappa[i][k] = ch;
         }
-    }   
-    for (int i = 0; i < rows; i++){
-        for (int k = 0; k < cols; k++){
-            printf("%c", mappa[i][k]);
-        }
-        printf("\n");
     }
 
-    while(1){
-        direction = getDirection();
-        updatePosition(pac, direction);
-        sleep(1000);
+    initscr();
+    raw();
+    keypad(stdscr, TRUE);
+    noecho();
+    curs_set(0); // hide cursor
+    timeout(60);
+    mvprintw(0, 0, "Debug: Righe: %d, Colonne: %d", rows, cols);
+    for (int i = 0; i < rows; i++){
+        for (int k = 0; k < cols; k++){
+            mvaddch(i+2, k, mappa[i][k]);
+        }
     }
+    refresh();
+    getch();
+    int cha;
+    direction dir = UP;
+
+    /*while((cha = getch()) != 'q'){
+        clear();
+        dir = getDirection(dir, cha);
+        displayElements(rows, cols, mappa, pac);
+        updatePosition(rows, cols, mappa, pac, dir);
+        refresh();
+    }*/
+
+    endwin();
+    free(pac);
+    return 0;
 }
+
