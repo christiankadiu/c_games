@@ -17,6 +17,7 @@ pacman* init(){
 
 int main(){
     pacman* pac = init();
+    ghost* fantasmi = NULL;
     int cols;
     int rows;
     FILE* fp = fopen("mappa.txt", "r");
@@ -36,18 +37,23 @@ int main(){
         for (int k = 0; k < cols; k++){
             ch_int = fgetc(fp);
         
-            // Se il carattere è un newline o un ritorno a capo,
-            // lo scartiamo e leggiamo il carattere successivo
             if (ch_int == '\n' || ch_int == '\r') {
-                k--; // Ritorna indietro di una posizione per riempire la cella corrente
-                continue; // Passa all'iterazione successiva
+                k--; 
+                continue; 
             }
         
-            // Assegna il carattere letto alla matrice
             mappa[i][k] = (char)ch_int;
+            if (mappa[i][k] == 'G'){
+                ghost* g = (ghost*)malloc(sizeof(ghost));
+                g->x = k;
+                g->y = i;
+                g->next = fantasmi;
+                g->prev = UP;
+                fantasmi = g;
+            }
         }
     }
-    fclose(fp); // Chiudi il file appena hai finito di leggerlo
+    fclose(fp); 
 
     // Inizializzazione di ncurses
     initscr();
@@ -65,9 +71,11 @@ int main(){
     while(1){
         clear();
         displayElements(rows, cols, mappa, pac);
+        displayGhosts(fantasmi);
         dir = getDirection(dir);
         if (dir == STOP) break;
         updatePosition(rows, cols, mappa, pac, dir);
+        updateGhostsPosition(rows, cols, mappa, fantasmi);
         refresh();
     }
 

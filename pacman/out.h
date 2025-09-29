@@ -13,4 +13,6 @@ direction getDirection(direction dir);
 
 void displayElements(int rows, int cols, char mappa[rows][cols], pacman* pac);
 
+void displayGhosts(ghost* fantasmi);
+
 #endif

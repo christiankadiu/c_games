@@ -4,6 +4,7 @@
 
 #define MURO '#'
 #define PAC 'P'
+#define FANTA 'G'
 
 
 void stampa(int rows, int cols, char matrice[rows][cols]){
@@ -47,3 +48,15 @@ void displayElements(int rows, int cols, char mappa[rows][cols], pacman* pac){
     }
 
 }
+
+
+void displayGhosts(ghost* fantasmi){
+    while(fantasmi){
+        mvaddch(fantasmi->y, fantasmi->x, FANTA);
+        fantasmi = fantasmi->next;
+    }
+}
+
+
+
+
