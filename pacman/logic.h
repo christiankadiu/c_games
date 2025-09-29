@@ -26,8 +26,12 @@ typedef struct ghost{
 
 void stampa(int rows, int cols, char matrice[rows][cols]);
 
-void updatePosition(int rows, int cols, char matrice[rows][cols], pacman* p, direction d);
+void updatePosition(int rows, int cols, char matrice[rows][cols], pacman* p, direction d, direction prev);
+
+int updatePacmanPosition(int rows, int cols, char matrice[rows][cols], pacman* p, direction d);
 
 void updateGhostsPosition(int rows, int cols, char matrice[rows][cols], ghost* fantasmi);
+
+int checkCollisions(pacman* p, ghost* g);
 
 #endif

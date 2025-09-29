@@ -69,15 +69,24 @@ int main(){
     
 
     char ch;
-    direction dir = UP;
+    direction prev = UP;
+    direction dir;
     while(1){
         clear();
         displayElements(rows, cols, mappa, pac);
         displayGhosts(fantasmi);
-        dir = getDirection(dir);
+        dir = getDirection(prev);
         if (dir == STOP) break;
-        updatePosition(rows, cols, mappa, pac, dir);
+
+        if (!updatePacmanPosition(rows, cols, mappa, pac, dir)){
+            updatePacmanPosition(rows, cols, mappa, pac, prev);
+        }else{
+            prev = dir;
+        }
         updateGhostsPosition(rows, cols, mappa, fantasmi);
+        if (checkCollisions(pac, fantasmi)){
+            break;
+        }
         refresh();
     }
 
