@@ -5,9 +5,10 @@
 #include "out.h"
 #include "logic.h"
 #include <stdbool.h>
+#include <time.h>
+
 #define MURO '#'
 #define PUNTO '.'
-
 pacman* init(){
     pacman* p = (pacman*)malloc(sizeof(pacman));
     p->x = 5;
@@ -16,6 +17,7 @@ pacman* init(){
 }
 
 int main(){
+    srand(time(NULL));
     pacman* pac = init();
     ghost* fantasmi = NULL;
     int cols;

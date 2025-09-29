@@ -1,7 +1,6 @@
 #include "logic.h"
 #include <stdio.h>
 #include <stdlib.h>
-
 #define MURO '#'
 #define PAC 'P'
 
@@ -78,6 +77,23 @@ int updateGhost(int rows, int cols, char matrice[rows][cols], ghost* p, directio
 }
 
 
+direction mapping(int n){
+    switch(n){
+        case 0: 
+            return UP; 
+            break;
+        case 1:
+            return RIGHT;
+            break;
+        case 2:
+            return DOWN;
+            break;
+        case 3:
+            return LEFT;
+            break;
+    }
+    return STOP;
+}
 
 void updateGhostsPosition(int rows, int cols, char matrice[rows][cols], ghost* fantasmi) {
     while (fantasmi) {
@@ -86,18 +102,13 @@ void updateGhostsPosition(int rows, int cols, char matrice[rows][cols], ghost* f
             continue; 
         }
 
-        if (updateGhost(rows, cols, matrice, fantasmi, UP)) {
-            fantasmi->prev = UP; 
-        }
-        else if (updateGhost(rows, cols, matrice, fantasmi, RIGHT)) {
-            fantasmi->prev = RIGHT; 
-        }
-        else if (updateGhost(rows, cols, matrice, fantasmi, DOWN)) {
-            fantasmi->prev = DOWN;
-        }
-        else if (updateGhost(rows, cols, matrice, fantasmi, LEFT)) {
-            fantasmi->prev = LEFT; 
-        }
+        int r;
+        direction d;
+        do{
+            r = rand() % 4;   
+            d = mapping(r);
+            fantasmi->prev = d;
+        }while(updateGhost(rows, cols, matrice, fantasmi, d) == 0);
 
         fantasmi = fantasmi->next;
     }
