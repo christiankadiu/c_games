@@ -89,7 +89,6 @@ int main(){
         }
         refresh();
     }
-
     endwin();
     free(pac);
     return 0;

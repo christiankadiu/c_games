@@ -125,7 +125,8 @@ void updateGhostsPosition(int rows, int cols, char matrice[rows][cols], ghost* f
 
 int checkCollisions(pacman* p, ghost* g){
     while (g){
-        return p->x == g->x && p->y == g->y;
+        if (p->x == g->x && p->y == g->y) return 1;
+        g = g->next;
     }
     return 0;
 }
