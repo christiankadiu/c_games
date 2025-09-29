@@ -4,13 +4,14 @@
 #include <ncurses.h>
 #include "out.h"
 #include "logic.h"
+#include <stdbool.h>
 #define MURO '#'
 #define PUNTO '.'
 
 pacman* init(){
     pacman* p = (pacman*)malloc(sizeof(pacman));
-    p->x = 23;
-    p->y = 6;
+    p->x = 5;
+    p->y = 23;
     return p;
 }
 
@@ -18,7 +19,7 @@ int main(){
     pacman* pac = init();
     int cols;
     int rows;
-    FILE* fp = fopen("mappa2.txt", "r");
+    FILE* fp = fopen("mappa.txt", "r");
 
     if(fp == NULL){
         printf("errore di apertura del file\n");
@@ -55,24 +56,17 @@ int main(){
     noecho();
     curs_set(0); 
     timeout(60);
-
-    // Usa SOLO funzioni ncurses per stampare.
+    
     mvprintw(0, 0, "Debug: Righe: %d, Colonne: %d", rows, cols);
     
-    // Stampa la mappa sullo schermo ncurses
-    /*for (int i = 0; i < rows; i++){
-        for (int k = 0; k < cols; k++){
-            mvaddch(i + 2, k, mappa[i][k]); // Sposta la mappa verso il basso di 2 righe per non sovrapporsi al debug
-        }
-    }*/
-
 
     char ch;
-    direction dir = STOP;
+    direction dir = UP;
     while(1){
         clear();
         displayElements(rows, cols, mappa, pac);
         dir = getDirection(dir);
+        if (dir == STOP) break;
         updatePosition(rows, cols, mappa, pac, dir);
         refresh();
     }

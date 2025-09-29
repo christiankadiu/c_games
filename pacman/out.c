@@ -26,6 +26,8 @@ direction getDirection(direction prev){
             return LEFT;
         case KEY_RIGHT:
             return RIGHT;
+        case 113:
+            return STOP;
     }
     return prev;
 }
